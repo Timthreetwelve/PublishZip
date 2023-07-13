@@ -30,12 +30,13 @@ Write-Host "PubZip: entering script at $now"
 # Variable names for files and paths
 try {
     $name = $name.Trim('"')
+    $nameWithoutSpaces = $name.Replace(" ", "")
     $pubFolder = [IO.Path]::Combine($path.Trim('"'), "bin", "Publish")
     $pubFiles = -join ($pubFolder, "\*")
     $tempFolder = [IO.Path]::Combine($path.Trim('"'), "bin", "Temp")
     $tempPath = [IO.Path]::Combine($tempFolder, $name)
     $tempPath = -join ($tempPath, "\")
-    $zipFile = -join ($name, "_", $version, "_NonInstall.zip")
+    $zipFile = -join ($nameWithoutSpaces, "_", $version, "_NonInstall.zip")
     $zipPath = [IO.Path]::Combine($path.Trim('"'), "bin", "Zip")
     $theZip = [IO.Path]::Combine($zipPath, $zipFile)
 }
