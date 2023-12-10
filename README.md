@@ -9,7 +9,7 @@
                                                             |_|    
 ```
                                                  
-PowerShell scripts that I use to publish zip archives
+## PowerShell scripts that I use to publish zip archives
 
 The PowerShell script is executed in the .csproj file only during Publish.  See the **Exec** statement near the end.
 ``` XML
