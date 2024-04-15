@@ -1,22 +1,12 @@
-```                                                                                              
-  _____            _       _   _         _       ______  _         
- |  __ \          | |     | | (_)       | |     |___  / (_)        
- | |__) |  _   _  | |__   | |  _   ___  | |__      / /   _   _ __  
- |  ___/  | | | | | '_ \  | | | | / __| | '_ \    / /   | | | '_ \ 
- | |      | |_| | | |_) | | | | | \__ \ | | | |  / /__  | | | |_) |
- |_|       \__,_| |_.__/  |_| |_| |___/ |_| |_| /_____| |_| | .__/ 
-                                                            | |    
-                                                            |_|    
-```
-                                                 
-## PowerShell scripts that I use to publish zip archives
+# PowerShell scripts that I use to publish zip archives
 
 The PowerShell script is executed in the .csproj file only during Publish.  See the **Exec** statement near the end.
+
 ``` XML
   <!-- Publish to Zip file -->
   <Target Name="PublishZip" AfterTargets="Publish">
     <PropertyGroup >
-      <PowerShellScript>-File "D:\Visual Studio\Source\PowerShell\PublishZip\PubZipEx.ps1"</PowerShellScript>
+      <PowerShellScript>-File "[Your folder]\PublishZip\PubZipEx.ps1"</PowerShellScript>
       <Name>-name "[name of project]"</Name>
       <Version>-version $(AssemblyVersion)</Version>
       <Path>-path "$(ProjectDir)"</Path>
@@ -25,7 +15,7 @@ The PowerShell script is executed in the .csproj file only during Publish.  See 
 
     <!-- This is the framework dependent version -->
     <PropertyGroup Condition="'$(PublishDir.Contains(`Framework_Dependent`))'">
-      <PubType>-pubType ""</PubType>
+      <PubType>-pubType "x64x86"</PubType>
     </PropertyGroup>
 
     <!-- This is the x64 self contained version-->
