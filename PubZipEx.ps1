@@ -1,21 +1,6 @@
-# This is a PowerShell script that will create zip files suitable for a "portable" non-installation
+# This is a PowerShell script that will create zip files suitable for a "portable" installation.
 #
-# To call it add something similar to the following to the project file:
-#
-#      <Target Name="PublishZip" AfterTargets="Publish" >
-#        <PropertyGroup>
-#            <PowerShellScript>-File "D:\Visual Studio\Source\PowerShell\PublishZip\PubZipEx.ps1"</PowerShellScript>
-#            <Name>-name $(AssemblyName)</Name>
-#            <Version>-version $(AssemblyVersion)</Version>
-#            <Path>-path $(ProjectDir)</Path>
-#            <PublishFolder>-pubDir $(PublishDir)</PublishFolder>
-#        </PropertyGroup>
-#        <PropertyGroup Condition="'$(PublishDir.Contains(`Self_Contained_x64`))'">
-#        <PubType>-pubType "SC_x64"</PubType>
-#        </PropertyGroup>
-#        <Exec Command="pwsh -NoProfile $(PowerShellScript) $(Name) $(Version) $(Path)" />
-#      </Target>
-#
+# See the README.md file for an example showing how to add to a .csproj file.
 
 Param(
     [Parameter(Mandatory = $true)] [string] $name,
@@ -52,7 +37,6 @@ try {
     $zipFile = -join ($nameWithoutSpaces, "_", $version, "_", $pubType, "_Portable.zip")
     $zipPath = [IO.Path]::Combine($path.Trim('"'), "bin", "Zip")
     $theZip = [IO.Path]::Combine($zipPath, $zipFile)
-    $fileHashesPath = "C:\Users\kenne\AppData\Local\Programs\T_K\FileHashes\FileHashes.exe"
 }
 catch {
     Write-Host "PubZip: Error combining or joining paths."
@@ -115,7 +99,10 @@ catch {
 
 #  Get the SHA256 hash
 Write-Host "PubZip: Getting file hash."
-Start-Process -FilePath $fileHashesPath -ArgumentList """$theZip"""
+$hash = (Get-FileHash $theZip -Algorithm SHA256).Hash.ToLower()
+Write-Host "PubZip: SHA256 for $theZip is $hash"
+
+#
 Write-Host "PubZip: Opening zip output folder."
 Invoke-Item $zipPath
 
